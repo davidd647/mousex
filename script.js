@@ -167,6 +167,11 @@ $("body").on("keydown", function (e) {
     }
   }
 
+  // don't register speed changes if the saucer is inactive
+  if (!rocketActive) {
+    return;
+  }
+
   // w = 87; ⬆️ = 38 - - - accelerate up
   if (e.keyCode === 87 || e.keyCode === 38) {
     upActive = true;
