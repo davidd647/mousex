@@ -22,6 +22,9 @@
   var scrollTop = 0;
   var scrollLeft = 0;
 
+  var rocketHeight = 30;
+  var rocketWidth = 30;
+
   function getScreenSize() {
     screenWidth = $("body").width();
     screenHeight = $("body").height();
@@ -40,8 +43,8 @@
 
   getWindowSize();
 
-  var clientX = screenWidth / 2;
-  var clientY = screenHeight / 2;
+  var clientX = windowWidth / 2;
+  var clientY = windowHeight / 2;
 
   $("body").append("<div class='rocket d-none'></div>");
 
@@ -98,6 +101,20 @@
       accelerateRight();
     }
 
+    // ship tilts left
+    if (leftActive && !rightActive) {
+      $(".rocket").addClass("rocket-left");
+    } else {
+      $(".rocket").removeClass("rocket-left");
+    }
+
+    // ship tilts right
+    if (rightActive && !leftActive) {
+      $(".rocket").addClass("rocket-right");
+    } else {
+      $(".rocket").removeClass("rocket-right");
+    }
+
     // bounce:
     if (clientX < 0 && clientSpeedX < 0) {
       clientSpeedX = -clientSpeedX;
@@ -131,8 +148,11 @@
             document.body
           ).scrollTop;
 
-    if (clientY > windowHeight && scrollTop < clientY - windowHeight) {
-      window.scroll(0, clientY - windowHeight);
+    if (
+      clientY + rocketHeight > windowHeight &&
+      scrollTop < clientY + rocketHeight - windowHeight
+    ) {
+      window.scroll(0, clientY + rocketHeight - windowHeight);
     } else if (clientY < scrollTop) {
       window.scroll(0, clientY);
     }
@@ -157,11 +177,6 @@
 
     // x = 88 - - - toggle rocket display
     if (e.keyCode === 88 && commandKey) {
-      // in case the user is focused on a textarea or something
-
-      console.log(clientX);
-      console.log(clientY);
-
       // make cursor disappear by adding CSS class to body
       if (!rocketActive) {
         $(this).addClass("cursor-hidden");
@@ -213,7 +228,11 @@
       if ($(element).is("textarea, input")) {
         $(element).focus();
       } else {
+        // disable scrolling based on rocket position
+        clientY = null;
         $(element)[0].click();
+        // reinstate rocket position
+        clientY = scrollTop;
       }
     }
   });
@@ -249,7 +268,7 @@
     clientX = e.clientX;
     clientY = e.clientY + scrollTop;
     $(".rocket").css("left", clientX);
-    $(".rocket").css("top", clientY + scrollTop);
+    $(".rocket").css("top", clientY);
 
     console.log(e.clientY + scrollTop);
   });

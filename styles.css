@@ -15,4 +15,13 @@ body {
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
+  transition: 0.3s ease-in-out transform;
+}
+
+.rocket.rocket-left {
+  transform: rotate(-45deg);
+}
+
+.rocket.rocket-right {
+  transform: rotate(45deg);
 }
