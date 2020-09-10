@@ -236,7 +236,3 @@ $("body").on("mousemove", function (e) {
 
   console.log(e.clientY + scrollTop);
 });
-
-$("#test-link").on("click", function () {
-  console.log("I was clicked!");
-});
