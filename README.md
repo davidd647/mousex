@@ -2,7 +2,7 @@ MouseX
 
 What is this?
   This is MouseX - a plugin to add to your website so that there is a comfortable/fun alternative to using a mouse.
-  Landing page: 
+  Landing page: https://awesome-jennings-d30067.netlify.app/
 
 How do I use it?
   1. First, include jQuery to your project ()
