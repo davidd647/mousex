@@ -125,11 +125,13 @@ function mainLoop() {
     window.scroll(0, clientY);
   }
 
-  clientY += clientSpeedY;
-  clientX += clientSpeedX;
+  if (rocketActive) {
+    clientY += clientSpeedY;
+    clientX += clientSpeedX;
 
-  $(".rocket").css("top", clientY);
-  $(".rocket").css("left", clientX);
+    $(".rocket").css("top", clientY);
+    $(".rocket").css("left", clientX);
+  }
 }
 
 var commandKey = false;
@@ -165,8 +167,6 @@ $("body").on("keydown", function (e) {
     }
   }
 
-  console.log(e.keyCode, e.key);
-
   // w = 87; ⬆️ = 38 - - - accelerate up
   if (e.keyCode === 87 || e.keyCode === 38) {
     upActive = true;
@@ -187,8 +187,8 @@ $("body").on("keydown", function (e) {
   if (e.keyCode === 81) {
     stabilizeActive = true;
   }
-  // c = 67 //click
-  if (e.keyCode === 67) {
+  // e = 69 //simulate click
+  if (e.keyCode === 69) {
     console.log("click!");
     var element = document.elementFromPoint(clientX, clientY - scrollTop);
     console.log(clientX, clientY);
@@ -199,8 +199,6 @@ $("body").on("keydown", function (e) {
       $(element)[0].click();
     }
   }
-
-  // p = 80 - - - toggle rocket pause
 });
 
 $("body").on("keyup", function (e) {
