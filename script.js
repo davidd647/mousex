@@ -181,6 +181,8 @@
       if (!rocketActive) {
         $(this).addClass("cursor-hidden");
         $(".rocket").removeClass("d-none");
+        clientSpeedX = 0;
+        clientSpeedY = 0;
         rocketActive = true;
         $(":focus").blur();
       } else {
