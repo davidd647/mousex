@@ -4,12 +4,18 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html",
+    "predeploy": "npm run build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^4.5.2",
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "requirejs": "^2.3.6"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
   }
 }

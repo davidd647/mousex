@@ -17,6 +17,8 @@ How do I use it?
 
 To-dos:
 - deploy a landing page
+- ship origin should be bottom middle. should have a dot target, and on press of 'e', 
+  should emit a tractor beam to go to link
 - use requirejs so we can add params to an initiator instead of the IFFE...
 - put the code into a Chrome plugin so you can use it on any website you want
 
