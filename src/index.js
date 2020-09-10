@@ -150,6 +150,10 @@ import $ from "jquery";
             document.body
           ).scrollTop;
 
+    if (!rocketActive) {
+      return;
+    }
+
     if (
       clientY + rocketHeight > windowHeight &&
       scrollTop < clientY + rocketHeight - windowHeight
@@ -159,21 +163,19 @@ import $ from "jquery";
       window.scroll(0, clientY);
     }
 
-    if (rocketActive) {
-      clientY += clientSpeedY;
-      clientX += clientSpeedX;
+    clientY += clientSpeedY;
+    clientX += clientSpeedX;
 
-      $(".rocket").css("top", clientY);
-      $(".rocket").css("left", clientX);
-    }
+    $(".rocket").css("top", clientY);
+    $(".rocket").css("left", clientX);
   }
 
   var commandKey = false;
 
   // usable keys: x, w, a, s, d, ⬆️, ⬅️, ⬇️, ➡️, q, c
   $("body").on("keydown", function (e) {
-    // cmd = 91
-    if (e.keyCode === 91) {
+    // cmd = 91, ctrl = 17
+    if (e.keyCode === 91 || e.keyCode === 17) {
       commandKey = true;
     }
 
