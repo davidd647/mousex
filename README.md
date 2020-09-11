@@ -14,12 +14,8 @@ How do I use it?
 - The basic principles of what a mouse is, is a device that helps you (1) scroll and (2) click things. Those two features can easily be replaced by keyboard functionality. It might be that the hardest part is doing it in a way that feels good and is easy to understand. I believe MouseX does a okay job of meeting these requirements.
 
 
-
 To-dos:
-- use requirejs so we can add params to an initiator instead of the IFFE...
-- ship origin should be bottom middle. should have a dot target, and on press of 'e', 
-  should emit a tractor beam to go to link
-- put the code into a Chrome plugin so you can use it on any website you want
+- put the code into a Chrome plugin so you can use it on any website you want?
 
 
 Flying saucer artwork from:
