@@ -17,7 +17,7 @@ var myPlugin = {
     screenWidth: 0,
     screenHeight: 0,
 
-    // scrollTop: 0,
+    scrollTop: 0,
     // scrollLeft: 0,
 
     rocketHeight: 30,
@@ -40,7 +40,16 @@ var myPlugin = {
     // $(window).height(); doesn't gives body height... weird, right?
     this.settings.windowHeight = window.innerHeight;
   },
-
+  getScrollTop: function () {
+    this.scrollTop =
+      window.pageYOffset !== undefined
+        ? window.pageYOffset
+        : (
+            document.documentElement ||
+            document.body.parentNode ||
+            document.body
+          ).scrollTop;
+  },
   accelerateUp: function () {
     this.settings.clientSpeedY -= this.settings.speedIncrements;
   },
@@ -256,14 +265,7 @@ var myPlugin = {
             document.body.parentNode ||
             document.body
           ).scrollLeft;
-    this.scrollTop =
-      window.pageYOffset !== undefined
-        ? window.pageYOffset
-        : (
-            document.documentElement ||
-            document.body.parentNode ||
-            document.body
-          ).scrollTop;
+    this.getScrollTop();
 
     if (!this.rocketActive) {
       return;
@@ -303,6 +305,8 @@ var myPlugin = {
 
     this.clientX = this.windowWidth / 2;
     this.clientY = this.windowHeight / 2;
+
+    this.getScrollTop();
 
     $("body").append("<div class='rocket d-none'></div>");
 
