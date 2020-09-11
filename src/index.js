@@ -20,8 +20,8 @@ var myPlugin = {
     scrollTop: 0,
     // scrollLeft: 0,
 
-    rocketHeight: 30,
-    rocketWidth: 30,
+    rocketHeight: 50,
+    rocketWidth: 50,
 
     screenWidth: 0,
     screenHeight: 0,
@@ -198,8 +198,8 @@ var myPlugin = {
       plugin.clientX = e.clientX;
       plugin.clientY = e.clientY + plugin.scrollTop;
 
-      $(".rocket").css("left", plugin.clientX);
-      $(".rocket").css("top", plugin.clientY);
+      $(".rocket").css("left", plugin.clientX - 25);
+      $(".rocket").css("top", plugin.clientY - 50);
     });
   },
 
@@ -236,20 +236,22 @@ var myPlugin = {
     }
 
     // bounce:
-    if (this.clientX < 0 && this.settings.clientSpeedX < 0) {
+    if (this.clientX < 25 && this.settings.clientSpeedX < 0) {
       this.settings.clientSpeedX = Math.abs(this.settings.clientSpeedX);
     }
-    if (this.clientY < 0 && this.settings.clientSpeedY < 0) {
+    if (this.clientY < 50 && this.settings.clientSpeedY < 0) {
       this.settings.clientSpeedY = Math.abs(this.settings.clientSpeedY);
     }
     if (
-      this.clientX > this.settings.screenWidth - this.settings.rocketWidth &&
+      this.clientX - 25 >
+        this.settings.screenWidth - this.settings.rocketWidth &&
       this.settings.clientSpeedX > 0
     ) {
       this.settings.clientSpeedX = -Math.abs(this.settings.clientSpeedX);
     }
     if (
-      this.clientY > this.settings.screenHeight - this.settings.rocketHeight &&
+      this.clientY - 50 >
+        this.settings.screenHeight - this.settings.rocketHeight &&
       this.settings.clientSpeedY > 0
     ) {
       this.settings.clientSpeedY = -Math.abs(this.settings.clientSpeedY);
@@ -288,15 +290,15 @@ var myPlugin = {
     }
 
     // scroll with UFO to top...
-    if (this.clientY < this.scrollTop && this.settings.clientSpeedY < 0) {
-      window.scroll(0, this.clientY);
+    if (this.clientY - 50 < this.scrollTop && this.settings.clientSpeedY < 0) {
+      window.scroll(0, this.clientY - 50);
     }
 
     this.clientY += this.settings.clientSpeedY;
     this.clientX += this.settings.clientSpeedX;
 
-    $(".rocket").css("top", this.clientY);
-    $(".rocket").css("left", this.clientX);
+    $(".rocket").css("top", this.clientY - 50);
+    $(".rocket").css("left", this.clientX - 25);
   },
 
   init: function () {
@@ -308,7 +310,7 @@ var myPlugin = {
 
     this.getScrollTop();
 
-    $("body").append("<div class='rocket d-none'></div>");
+    $("body").append("<div class='rocket d-none'><div></div></div>");
 
     this.addEventListeners();
 
