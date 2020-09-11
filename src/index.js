@@ -275,10 +275,14 @@ var myPlugin = {
 
     // scroll with UFO to bottom...
     if (
-      this.clientY > this.scrollTop + this.settings.windowHeight &&
+      this.clientY + this.settings.rocketHeight >
+        this.scrollTop + this.settings.windowHeight &&
       this.settings.clientSpeedY > 0
     ) {
-      window.scroll(0, this.clientY - this.settings.windowHeight);
+      window.scroll(
+        0,
+        this.clientY + this.settings.rocketHeight - this.settings.windowHeight
+      );
     }
 
     // scroll with UFO to top...
