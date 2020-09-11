@@ -3,7 +3,7 @@ body {
 }
 
 .cursor-hidden {
-  cursor: none !important;
+  /* cursor: none !important; */
 }
 
 .rocket {
@@ -18,6 +18,25 @@ body {
   transition: 0.3s ease-in-out transform;
 }
 
+.rocket div {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  pointer-events: none;
+}
+
+.rocket div:before {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 20px;
+
+  pointer-events: none;
+  background: rgba(0, 255, 255, 0.5);
+  left: 20px;
+  top: 30px;
+}
+
 .rocket.rocket-left {
   transform: rotate(-45deg);
 }
@@ -25,3 +44,11 @@ body {
 .rocket.rocket-right {
   transform: rotate(45deg);
 }
+
+/* .rocket-tractor-beam {
+  position: absolute;
+  width: 3px;
+  height: 50px;
+  pointer-events: none;
+  background-color: rgba(0, 255, 255, 0.5);
+} */
