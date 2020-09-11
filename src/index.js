@@ -17,8 +17,8 @@ var myPlugin = {
     screenWidth: 0,
     screenHeight: 0,
 
-    scrollTop: 0,
-    scrollLeft: 0,
+    // scrollTop: 0,
+    // scrollLeft: 0,
 
     rocketHeight: 30,
     rocketWidth: 30,
@@ -28,52 +28,55 @@ var myPlugin = {
 
     windowWidth: 0,
     windowHeight: 0,
+
+    mainLoopToggler: null,
   },
   getScreenSize: function () {
-    this.screenWidth = $("body").width();
-    this.screenHeight = $("body").height();
+    this.settings.screenWidth = $("body").width();
+    this.settings.screenHeight = $("body").height();
   },
   getWindowSize: function () {
-    this.windowWidth = $(window).width();
+    this.settings.windowWidth = $(window).width();
     // $(window).height(); doesn't gives body height... weird, right?
-    this.windowHeight = window.innerHeight;
+    this.settings.windowHeight = window.innerHeight;
   },
 
   accelerateUp: function () {
-    this.clientSpeedY -= this.speedIncrements;
+    this.settings.clientSpeedY -= this.settings.speedIncrements;
   },
   accelerateLeft: function () {
-    this.clientSpeedX -= this.speedIncrements;
+    this.settings.clientSpeedX -= this.settings.speedIncrements;
   },
   accelerateDown: function () {
-    this.clientSpeedY += this.speedIncrements;
+    this.settings.clientSpeedY += this.settings.speedIncrements;
   },
   accelerateRight: function () {
-    this.clientSpeedX += this.speedIncrements;
+    this.settings.clientSpeedX += this.settings.speedIncrements;
   },
 
   stabilize: function () {
-    if (this.clientSpeedX > 0) {
-      this.clientSpeedX -= this.speedIncrements;
-    } else if (this.clientSpeedX < 0) {
-      this.clientSpeedX += this.speedIncrements;
+    if (this.settings.clientSpeedX > 0) {
+      this.settings.clientSpeedX -= this.settings.speedIncrements;
+    } else if (this.settings.clientSpeedX < 0) {
+      this.settings.clientSpeedX += this.settings.speedIncrements;
     }
 
-    if (this.clientSpeedY > 0) {
-      this.clientSpeedY -= this.speedIncrements;
-    } else if (this.clientSpeedY < 0) {
-      this.clientSpeedY += this.speedIncrements;
+    if (this.settings.clientSpeedY > 0) {
+      this.settings.clientSpeedY -= this.settings.speedIncrements;
+    } else if (this.settings.clientSpeedY < 0) {
+      this.settings.clientSpeedY += this.settings.speedIncrements;
     }
 
-    if (Math.abs(this.clientSpeedX) <= 1 && Math.abs(this.clientSpeedY) <= 1) {
-      this.clientSpeedX = 0;
-      this.clientSpeedY = 0;
+    if (
+      Math.abs(this.settings.clientSpeedX) <= 1 &&
+      Math.abs(this.settings.clientSpeedY) <= 1
+    ) {
+      this.settings.clientSpeedX = 0;
+      this.settings.clientSpeedY = 0;
     }
   },
 
   handleKeyDown: function (e) {
-    console.log(this.settings);
-    console.log(e.keyCode);
     // cmd = 91, ctrl = 17
     if (e.keyCode === 91 || e.keyCode === 17) {
       this.commandKey = true;
@@ -83,20 +86,27 @@ var myPlugin = {
     if (e.keyCode === 88 && this.commandKey) {
       // make cursor disappear by adding CSS class to body
       if (!this.rocketActive) {
-        $(this).addClass("cursor-hidden");
+        console.log($(this));
+        $("body").addClass("cursor-hidden");
         $(".rocket").removeClass("d-none");
         this.clientSpeedX = 0;
         this.clientSpeedY = 0;
         this.rocketActive = true;
         $(":focus").blur();
       } else {
-        $(this).removeClass("cursor-hidden");
+        $("body").removeClass("cursor-hidden");
         $(".rocket").addClass("d-none");
         this.rocketActive = false;
       }
 
-      if (this.mainLoopToggler == null) {
-        this.mainLoopToggler = setInterval(this.mainLoop(this), 10);
+      if (this.settings.mainLoopToggler == null) {
+        this.settings.mainLoopToggler = setInterval(
+          () => this.mainLoop(this),
+          10
+        );
+      } else {
+        clearInterval(this.settings.mainLoopToggler);
+        this.settings.mainLoopToggler = null;
       }
     }
 
@@ -153,16 +163,16 @@ var myPlugin = {
       this.settings.upActive = false;
     }
     if (e.keyCode === 83 || e.keyCode === 40) {
-      this.downActive = false;
+      this.settings.downActive = false;
     }
     if (e.keyCode === 65 || e.keyCode === 37) {
-      this.leftActive = false;
+      this.settings.leftActive = false;
     }
     if (e.keyCode === 68 || e.keyCode === 39) {
-      this.rightActive = false;
+      this.settings.rightActive = false;
     }
     if (e.keyCode === 81) {
-      this.stabilizeActive = false;
+      this.settings.stabilizeActive = false;
     }
   },
 
@@ -184,54 +194,56 @@ var myPlugin = {
     });
   },
 
-  mainLoop: function (plugin) {
-    console.log("hello from mainLoop!");
-    console.log(plugin);
-    if (plugin.stabilizeActive) {
+  mainLoop: function () {
+    if (this.settings.stabilizeActive) {
       this.stabilize();
     }
-    console.log(plugin);
-    if (this.upActive) {
-      console.log(this.upActive);
-      console.log("firing accelerateUp...");
+
+    if (this.settings.upActive) {
       this.accelerateUp();
     }
-    if (this.downActive) {
+    if (this.settings.downActive) {
       this.accelerateDown();
     }
-    if (this.leftActive) {
+    if (this.settings.leftActive) {
       this.accelerateLeft();
     }
-    if (this.rightActive) {
+    if (this.settings.rightActive) {
       this.accelerateRight();
     }
 
     // ship tilts left
-    if (this.leftActive && !this.rightActive) {
+    if (this.settings.leftActive && !this.settings.rightActive) {
       $(".rocket").addClass("rocket-left");
     } else {
       $(".rocket").removeClass("rocket-left");
     }
 
     // ship tilts right
-    if (this.rightActive && !this.leftActive) {
+    if (this.settings.rightActive && !this.settings.leftActive) {
       $(".rocket").addClass("rocket-right");
     } else {
       $(".rocket").removeClass("rocket-right");
     }
 
     // bounce:
-    if (this.clientX < 0 && this.clientSpeedX < 0) {
-      this.clientSpeedX = -this.clientSpeedX;
+    if (this.clientX < 0 && this.settings.clientSpeedX < 0) {
+      this.settings.clientSpeedX = Math.abs(this.settings.clientSpeedX);
     }
-    if (this.clientY < 0 && this.clientSpeedY < 0) {
-      this.clientSpeedY = -this.clientSpeedY;
+    if (this.clientY < 0 && this.settings.clientSpeedY < 0) {
+      this.settings.clientSpeedY = Math.abs(this.settings.clientSpeedY);
     }
-    if (this.clientX > this.screenWidth && this.clientSpeedX > 0) {
-      this.clientSpeedX = -this.clientSpeedX;
+    if (
+      this.clientX > this.settings.screenWidth - this.settings.rocketWidth &&
+      this.settings.clientSpeedX > 0
+    ) {
+      this.settings.clientSpeedX = -Math.abs(this.settings.clientSpeedX);
     }
-    if (this.clientY > this.screenHeight && this.clientSpeedY > 0) {
-      this.clientSpeedY = -this.clientSpeedY;
+    if (
+      this.clientY > this.settings.screenHeight - this.settings.rocketHeight &&
+      this.settings.clientSpeedY > 0
+    ) {
+      this.settings.clientSpeedY = -Math.abs(this.settings.clientSpeedY);
     }
 
     // scrollLeft and scrollTop algorithms copied from
@@ -257,17 +269,25 @@ var myPlugin = {
       return;
     }
 
+    // scrollTop = how far down the document have you scrolled?
+    // clientY = how far down the document is the cursor?
+    // windowHeight = how tall is the window
+
+    // scroll with UFO to bottom...
     if (
-      this.clientY + this.rocketHeight > this.windowHeight &&
-      this.scrollTop < this.clientY + this.rocketHeight - this.windowHeight
+      this.clientY > this.scrollTop + this.settings.windowHeight &&
+      this.settings.clientSpeedY > 0
     ) {
-      window.scroll(0, this.clientY + this.rocketHeight - this.windowHeight);
-    } else if (this.clientY < this.scrollTop) {
+      window.scroll(0, this.clientY - this.settings.windowHeight);
+    }
+
+    // scroll with UFO to top...
+    if (this.clientY < this.scrollTop && this.settings.clientSpeedY < 0) {
       window.scroll(0, this.clientY);
     }
 
-    this.clientY += this.clientSpeedY;
-    this.clientX += this.clientSpeedX;
+    this.clientY += this.settings.clientSpeedY;
+    this.clientX += this.settings.clientSpeedX;
 
     $(".rocket").css("top", this.clientY);
     $(".rocket").css("left", this.clientX);
