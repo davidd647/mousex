@@ -3,7 +3,7 @@ body {
 }
 
 .cursor-hidden {
-  /* cursor: none !important; */
+  cursor: none !important;
 }
 
 .rocket {
