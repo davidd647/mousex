@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-var myPlugin = {
+var mouseX = {
   settings: {
     rocketActive: false,
 
@@ -318,4 +318,4 @@ var myPlugin = {
   },
 };
 
-myPlugin.init();
+mouseX.init();
