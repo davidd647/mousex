@@ -2,53 +2,21 @@ body {
   position: relative;
 }
 
-.cursor-hidden {
+/* .cursor-hidden {
   cursor: none !important;
-}
+}*/
 
-.rocket {
-  position: absolute;
+.ufo {
   width: 50px;
   height: 50px;
+
+  position: absolute;
+  left: 0;
+  top: 0;
   pointer-events: none;
-  background-image: url(assets/UFO.gif);
+  background: url("assets/UFO.gif");
   background-size: contain;
-  background-position: center center;
   background-repeat: no-repeat;
+  background-position: center center;
   transition: 0.3s ease-in-out transform;
 }
-
-.rocket div {
-  position: relative;
-  width: 50px;
-  height: 50px;
-  pointer-events: none;
-}
-
-.rocket div:before {
-  content: "";
-  position: absolute;
-  width: 3px;
-  height: 20px;
-
-  pointer-events: none;
-  background: rgba(0, 255, 255, 0.5);
-  left: 20px;
-  top: 30px;
-}
-
-.rocket.rocket-left {
-  transform: rotate(-45deg);
-}
-
-.rocket.rocket-right {
-  transform: rotate(45deg);
-}
-
-/* .rocket-tractor-beam {
-  position: absolute;
-  width: 3px;
-  height: 50px;
-  pointer-events: none;
-  background-color: rgba(0, 255, 255, 0.5);
-} */
