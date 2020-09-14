@@ -34,6 +34,32 @@ window.onload = function () {
       this.windowWidth = window.innerWidth;
       this.windowHeight = window.innerHeight;
     },
+    blur() {
+      document.querySelectorAll("input,textarea").forEach(function (element) {
+        if (element === document.activeElement) {
+          return element.blur();
+        }
+      });
+    },
+    activate() {
+      this.blur();
+      this.mouseXActive = true;
+      this.clientSpeedX = 0;
+      this.clientSpeedY = 0;
+      var plugin = this;
+
+      this.mainLoopToggler = setInterval(() => {
+        this.mainLoop(plugin);
+      }, 10);
+    },
+    deactivate() {
+      console.log("deactivating mouseX");
+      // deactivate mouseX
+      this.mouseXActive = false;
+
+      clearInterval(this.mainLoopToggler);
+      this.mainLoopToggler = null;
+    },
     handleKeyDown(e) {
       // cmd = 91, ctrl = 17
       if (e.keyCode === 91 || e.keyCode === 17) {
@@ -43,22 +69,13 @@ window.onload = function () {
       if (e.keyCode === 88 && this.commandKey) {
         if (!this.mouseXActive) {
           console.log("activating MouseX");
-          this.mouseXActive = true;
-          this.clientSpeedX = 0;
-          this.clientSpeedY = 0;
-          var plugin = this;
-
-          this.mainLoopToggler = setInterval(() => {
-            this.mainLoop(plugin);
-          }, 10);
+          this.activate();
         } else {
-          console.log("deactivating MouseX");
-          this.mouseXActive = false;
-
-          clearInterval(this.mainLoopToggler);
-          this.mainLoopToggler = null;
+          this.deactivate();
         }
       }
+
+      if (!this.mouseXActive) return;
 
       if (e.keyCode === 87 || e.keyCode === 38) {
         this.dirUpActive = true;
@@ -95,10 +112,16 @@ window.onload = function () {
           element.nodeName == "TEXTAREA"
         ) {
           element.focus();
+
+          this.deactivate();
         }
       }
     },
     handleKeyUp(e) {
+      if (e.keyCode === 91 || e.keyCode === 17) {
+        this.commandKey = false;
+      }
+
       if (e.keyCode === 87 || e.keyCode === 38) {
         this.dirUpActive = false;
       }
@@ -254,12 +277,3 @@ window.onload = function () {
 
   mouseX.init();
 };
-
-// to incorporate later:
-// blur() {
-//   document.querySelectorAll("input,textarea").forEach(function (element) {
-//     if (element === document.activeElement) {
-//       return element.blur();
-//     }
-//   });
-// },
