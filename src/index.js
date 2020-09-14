@@ -10,8 +10,8 @@ window.onload = function () {
     clientSpeedY: 0,
     speedIncrements: 0.1,
 
-    clientX: 0,
-    clientY: 0,
+    clientX: 25,
+    clientY: 50,
 
     newDiv: document.createElement("div"),
     body: document.querySelector("body"),
